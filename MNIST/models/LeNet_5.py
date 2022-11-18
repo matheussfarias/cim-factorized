@@ -4,8 +4,8 @@ from functions import *
 import matplotlib.pyplot as plt
 np.set_printoptions(suppress=True)
 
-def preprocessing(x, w, padding):
-    inp_unf = torch.nn.functional.unfold(x, (w.shape[2], w.shape[3]), padding = padding)
+def preprocessing(x, w, padding, stride):
+    inp_unf = torch.nn.functional.unfold(x, (w.shape[2], w.shape[3]), padding = padding, stride = stride)
     A = inp_unf.transpose(1, 2)
     B = w.view(w.size(0), -1).t()
     return A,B
@@ -42,7 +42,11 @@ class LeNet_5(nn.Module):
 
     def forward(self, x):
         """Forward propagation procedure"""
-        x = self.conv1(x)
+        #x = self.conv1(x)
+        A,B = preprocessing(x, self.conv1.weights, self.conv1.padding, self.conv1.stride)
+        x = torch.matmul(A,B)
+        x = postprocessing(x, self.conv1(x), self.conv1.bias)
+        
         x = self.relu1(x)
         x = self.pool1(x)
         x = self.conv2(x)
