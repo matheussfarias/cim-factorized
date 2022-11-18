@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 global device
 
-cuda_act = True
+cuda_act = False
 
 if cuda_act == True:
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
