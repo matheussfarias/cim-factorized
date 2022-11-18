@@ -116,7 +116,7 @@ if __name__=='__main__':
         exit()    
 
     # load pretrained model
-    pretrained_model = torch.load('./pretrained/LeNet_5.pth.tar')
+    pretrained_model = torch.load('./pretrained/LeNet_5.pth.tar', map_location = device)
     best_acc = pretrained_model['acc']
     model.load_state_dict(pretrained_model['state_dict'])
 
