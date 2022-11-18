@@ -43,10 +43,10 @@ class LeNet_5(nn.Module):
     def forward(self, x):
         """Forward propagation procedure"""
         #x = self.conv1(x)
-        A,B = preprocessing(x, self.conv1.weights, self.conv1.padding, self.conv1.stride)
+        A,B = preprocessing(x, self.conv1.weight, self.conv1.padding, self.conv1.stride)
         x = torch.matmul(A,B)
         x = postprocessing(x, self.conv1(x), self.conv1.bias)
-        
+
         x = self.relu1(x)
         x = self.pool1(x)
         x = self.conv2(x)
