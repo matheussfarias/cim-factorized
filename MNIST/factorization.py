@@ -13,7 +13,7 @@ B_prime = torch.rand(l,N)
 B0 = B
 print(B.shape)
 print(B_prime.shape)
-print(torch.linalg.pinv(B_prime))
+print(torch.linalg.pinv(B_prime).shape)
 exit()
 error = []
 for i in range(epochs):
