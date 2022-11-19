@@ -68,7 +68,7 @@ def f(x):
     return np.array(j)
 
 #evaluation
-def pso(size):
+def pso(size, k):
     m=size[0]
     n=size[1]
 
@@ -94,6 +94,8 @@ epochs = 25
 
 experiments = 1
 size = (K,N)
+
+k = 25
 
 loss_list = []
 loss_pso_clamp_list = []
