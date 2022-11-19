@@ -22,9 +22,6 @@ for i in range(epochs):
     B_pos = torch.abs(B_pos)
     B = torch.matmul(B_pos, B_prime)
     B_prime,_,_,_ = torch.linalg.lstsq(B_pos, B)
-    print(B_prime)
-    print(B_prime.shape)
-    exit()
     error.append(torch.norm(B-B0))
 
 print(error)
