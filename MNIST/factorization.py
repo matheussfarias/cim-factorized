@@ -106,7 +106,7 @@ loss_zeros_list = []
 
 for i in range(experiments):
     t1 = time.time()
-    loss, W_pos, W_small = pso(size)
+    loss, W_pos, W_small = pso(size, k)
     loss = frobenius(W, W_pos, W_small)
     t2 = time.time()
     W_pos_random, W_small_random = random_split(size,k)
