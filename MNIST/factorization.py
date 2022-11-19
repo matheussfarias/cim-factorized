@@ -21,8 +21,9 @@ for i in range(epochs):
     B_pos = torch.matmul(B, torch.linalg.pinv(B_prime))
     B_pos = torch.abs(B_pos)
     B = torch.matmul(B_pos, B_prime)
-    B_prime = torch.linalg.lstsq(B_pos, B)
+    B_prime,_,_,_ = torch.linalg.lstsq(B_pos, B)
     print(B_prime)
+    print(B_prime.shape)
     exit()
     error.append(torch.norm(B-B0))
 
