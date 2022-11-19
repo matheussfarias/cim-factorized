@@ -11,6 +11,10 @@ epochs = 25
 B_prime = torch.rand(l,N)
 
 B0 = B
+print(B.shape)
+print(B_prime.shape)
+print(torch.linalg.pinv(B_prime))
+exit()
 error = []
 for i in range(epochs):
     B_pos = torch.matmul(B, torch.linalg.pinv(B_prime))
