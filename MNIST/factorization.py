@@ -21,21 +21,6 @@ def random_split(size,k):
                     W_small[i][j]=1
     return W_pos, W_small
 
-def pso_split(W_pos, W_small):
-    for i in range(np.shape(W_pos)[0]):
-        for j in range(np.shape(W_pos)[1]):
-            if W_pos[i][j] >= .5:
-                W_pos[i][j] = 1
-            else:
-                W_pos[i][j] = 0
-    for i in range(np.shape(W_small)[0]):
-        for j in range(np.shape(W_small)[1]):
-            if W_small[i][j] >= 0:
-                W_small[i][j] = 1
-            else:
-                W_small[i][j] = -1
-
-    return W_pos, W_small
     
 def frobenius(W, W_pos, W_small):
     m=size[0]
@@ -84,43 +69,30 @@ def pso(size, k):
         W_pos = pos[m*k:(m*k + k*n)].reshape(k,n)
     return loss, W_pos, W_small
 
+def constraints(x, *args):
+    m=size[0]
+    n=size[1]
+    if m>=n:
+        W_pos = x[0:m*k].reshape(m,k)
+        W_small = x[m*k:(m*k + k*n)].reshape(k,n)
+    else:
+        W_small = x[0:m*k].reshape(m,k)
+        W_pos = x[m*k:(m*k + k*n)].reshape(k,n)
+    return [-W_pos]
+
 
 K = 316
 N = 100
-W = torch.rand(K,N)
-
-
-epochs = 25
 
 experiments = 1
 size = (K,N)
 
 k = 25
 
-loss_list = []
-loss_pso_clamp_list = []
-time_naive_list = []
-time_pso_clamp_list = []
-loss_random_list = []
-loss_zeros_list = []
 
 for i in range(experiments):
     t1 = time.time()
     loss, W_pos, W_small = pso(size, k)
-    loss = frobenius(W, W_pos, W_small)
     t2 = time.time()
-    W_pos_random, W_small_random = random_split(size,k)
-    W_pos_pso_clamp, W_small_pso_clamp = pso_split(W_pos, W_small)
-    loss_pso_clamp = frobenius(W, W_pos_pso_clamp, W_small_pso_clamp)
-    loss_random = frobenius(W, W_pos_random, W_small_random)
-    loss_zeros = frobenius(W,np.zeros((size[0], k)), np.zeros((k, size[1])))
-    loss_list.append(loss)
-    loss_pso_clamp_list.append(loss_pso_clamp)
-    loss_random_list.append(loss_random)
-    loss_zeros_list.append(loss_zeros)
-
-print(str(np.mean(loss_list)) + '+' + str(np.std(loss_list)))
-print(str(np.mean(loss_pso_clamp_list)) + '+' + str(np.std(loss_pso_clamp_list)))
-print(str(np.mean(loss_random_list)) + '+' + str(np.std(loss_random_list)))
-print(str(np.mean(loss_zeros_list)) + '+' + str(np.std(loss_zeros_list)))
-print(str(np.mean(time_pso_clamp_list)) + '+' + str(np.std(time_pso_clamp_list)))
+    
+print(loss)
