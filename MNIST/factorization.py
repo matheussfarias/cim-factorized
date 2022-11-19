@@ -14,6 +14,7 @@ B0 = B
 print(B.shape)
 print(B_prime.shape)
 print(torch.linalg.pinv(B_prime).shape)
+print(torch.linalg.pinv(B).shape)
 exit()
 error = []
 for i in range(epochs):
